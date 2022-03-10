@@ -9,5 +9,24 @@ class Product extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name','barcode','cost','price','stock','alerst','image','category_id'];
+    protected $fillable = ['name','barcode','cost','price','stock','alerts','image','category_id'];
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+
+   public function getImagenAttribute()
+    {
+        if($this->image==null){
+            return 'noimg.jpg';
+        }
+
+        if(file_exists('storage/products/' . $this->image))
+            return $this->image;
+        else
+            return 'noimg.jpg';
+    }
+
 }
